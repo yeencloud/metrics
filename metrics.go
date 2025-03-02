@@ -1,8 +1,8 @@
 package metrics
 
 import (
-	"github.com/yeencloud/shared"
-	"github.com/yeencloud/shared/log"
+	"github.com/yeencloud/lib-shared"
+	"github.com/yeencloud/lib-shared/log"
 )
 
 type MetricPoint struct {
@@ -13,7 +13,7 @@ type MetricPoint struct {
 type MetricValues map[string]any
 
 type MetricsInterface interface {
-	LogPoint(MetricPoint, MetricValues)
+	LogPoint(point MetricPoint, value MetricValues)
 
 	Connect() error
 }
@@ -33,8 +33,8 @@ func MetricsFromContext(ctx *shared.Context) (pointTags map[string]string, point
 		metricKey := entryKey.MetricKey()
 
 		if entryKey.IsMetricTag {
-			pointTags[metricKey] = value.(string)
-			return true
+			pointTags[metricKey], ok = value.(string)
+			return ok
 		}
 
 		if _, ok := points[entryKey.Root().String()]; !ok {
