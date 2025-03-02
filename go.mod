@@ -1,4 +1,4 @@
-module github.com/yeencloud/metrics
+module github.com/yeencloud/lib-metrics
 
 go 1.23
 
